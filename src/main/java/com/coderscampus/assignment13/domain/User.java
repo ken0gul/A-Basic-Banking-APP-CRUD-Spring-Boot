@@ -59,10 +59,10 @@ public class User {
 	public void setCreatedDate(LocalDate createdDate) {
 		this.createdDate = createdDate;
 	}
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "user_account",
-	           joinColumns = @JoinColumn(name = "user_id"), 
-	           inverseJoinColumns = @JoinColumn(name = "account_id"))
+	           joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "userId"), 
+	           inverseJoinColumns = @JoinColumn(name = "account_id",referencedColumnName = "accountId"))
 	public List<Account> getAccounts() {
 		return accounts;
 	}
