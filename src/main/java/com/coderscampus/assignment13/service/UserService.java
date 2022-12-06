@@ -25,6 +25,10 @@ public class UserService {
 
 	@Autowired
 	private AddressRepository addressRepository;
+	
+	
+	@Autowired
+	private AccountRepository accountRepository;
 
 	// Address
 
@@ -37,6 +41,27 @@ public class UserService {
 		}
 
 		return address;
+	}
+	
+	
+	// Accounts
+	
+	
+	public Account findAccountByUserId(Long accountId){
+		
+	 Account account = accountRepository.findByAccountId(accountId);
+		
+		if(account == null) account = new Account();
+		return  account;
+	}
+	
+	
+	// Save Account
+	
+	public Account saveAccount(Account account) {
+	
+		
+		return accountRepository.save(account);
 	}
 
 	public List<User> findByUsername(String username) {
@@ -70,20 +95,16 @@ public class UserService {
 
 	public User saveUser(User user) {
 		if (user.getUserId() == null) {
-
-			Account checking = new Account();
-			checking.setAccountName("Checking Account");
-			checking.getUsers().add(user);
-			Account savings = new Account();
-			savings.setAccountName("Savings Account");
-			savings.getUsers().add(user);
-
-			user.getAccounts().add(checking);
-			user.getAccounts().add(savings);
-			accountRepo.save(checking);
-			accountRepo.save(savings);
-
+			
+			
+			
 		}
+		return userRepo.save(user);
+	}
+	
+	
+	
+	public User saveUserAccount(User user) {
 		return userRepo.save(user);
 	}
 
