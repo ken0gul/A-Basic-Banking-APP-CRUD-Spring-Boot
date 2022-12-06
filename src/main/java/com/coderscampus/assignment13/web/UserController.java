@@ -44,7 +44,9 @@ public class UserController {
 	@GetMapping("/users")
 	public String getAllUsers(ModelMap model) {
 		Set<User> users = userService.findAll();
+		List<Account> allAccounts = userService.findAllAccounts();
 		model.put("users", users);
+		model.put("allAccounts", allAccounts);
 		if (users.size() == 1) {
 			model.put("user", users.iterator().next());
 		}
@@ -134,7 +136,7 @@ public class UserController {
 		userService.saveUserAccount(user);
 		
 		
-		return "redirect:/users/{userId}/account/";
+		return "redirect:/users/{userId}/accounts/{accountId}";
 	}
 	
 	
