@@ -18,7 +18,7 @@
 					Username: <input type="text" th:field="${user.username}" />
 				</div>
 				<div>
-					Password: <input type="password" th:field="${user.password}" />
+					Password: <input type="text" th:field="${user.password}" />
 				</div>
 				<div>
 					Full Name: <input type="text" th:field="${user.name}" />
@@ -81,6 +81,16 @@
 			method="post">
 			<input type="submit" value="Delete User Account" />
 		</form>
+		
+		<h2>Accounts</h2>
+		
+		<div th:each="account : ${user.accounts}">
+		<div>
+				<a th:href="@{/users/{userId}/account(userId=${user.userId})}" >Create A Bank Account</a>
+		</div>
+			<a  th:text="${account.accountName}" th:href="@{/users/{userId}/accounts/{accountId}(userId=${user.userId}, accountId=${account.accountId})}"></a>
+		</div>
+		
 		</div>
 		
 		
@@ -92,7 +102,8 @@
 		<span th:text="${user.name}"></span><br /> <span
 			th:text="${user.password}"></span>
 		<div th:each="account : ${user.accounts}">
-			<span th:text="${account.accountName}"></span>
+		<a  th:text="${account.accountName}" th:href="@{/users/{userId}/accounts/{accountId}(userId=${user.userId}, accountId=${account.accountId})}"></a>
+			
 		</div>
 		<hr />
 	</div>
@@ -106,9 +117,15 @@
 		<span th:text="${user.name}"></span><br /> <span
 			th:text="${user.password}"></span>
 		<div th:each="account : ${user.accounts}">
-			<span th:text="${account.accountName}"></span>
+			
+			<a  th:text="${account.accountName}" th:href="@{/users/{userId}/accounts/{accountId}(userId=${user.userId}, accountId=${account.accountId})}"></a>
 		</div>
 		<hr />
+	
 	</div>
+		
+	
+	
+	
 </body>
 </html>
