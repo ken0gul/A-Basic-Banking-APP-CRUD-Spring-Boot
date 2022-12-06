@@ -87,7 +87,7 @@ public class UserController {
 	
 	@GetMapping("/users/{userId}/account")
 	public String getCreateAccount(ModelMap model) {
-		
+	
 		model.put("accounts", new Account());
 		
 		
@@ -97,7 +97,7 @@ public class UserController {
 	
 	
 	@PostMapping("/users/{userId}/account")
-	public String createAccount(Account account, @PathVariable Long userId) {
+	public String createAccount(Account account, @PathVariable Long userId, @PathVariable Long accountId) {
 		User user = userService.findById(userId);
 		Account savedAccount = userService.saveAccount(account);
 		
