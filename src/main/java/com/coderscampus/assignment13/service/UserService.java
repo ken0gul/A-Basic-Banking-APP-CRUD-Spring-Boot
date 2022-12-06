@@ -1,6 +1,7 @@
 package com.coderscampus.assignment13.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -29,6 +30,9 @@ public class UserService {
 	
 	@Autowired
 	private AccountRepository accountRepository;
+	
+	
+	
 
 	// Address
 
@@ -59,9 +63,7 @@ public class UserService {
 	// Save Account
 	
 	public Account saveAccount(Account account) {
-	
-		
-		return accountRepository.save(account);
+		return  accountRepository.save(account);
 	}
 
 	public List<User> findByUsername(String username) {
@@ -87,6 +89,11 @@ public class UserService {
 	public Set<User> findAll() {
 		return userRepo.findAllUsersWithAccountsAndAddresses();
 	}
+	
+	public List<Account> findAllAccounts(){
+		return accountRepo.findAll();
+	}
+	
 
 	public User findById(Long userId) {
 		Optional<User> userOpt = userRepo.findById(userId);
