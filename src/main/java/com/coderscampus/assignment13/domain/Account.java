@@ -21,6 +21,9 @@ public class Account {
 	private List<Transaction> transactions = new ArrayList<>();
 	private List<User> users = new ArrayList<>();
 	
+	
+		
+	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getAccountId() {
 		return accountId;
@@ -42,11 +45,14 @@ public class Account {
 	public void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
 	}
-	@ManyToMany(mappedBy = "accounts", cascade = CascadeType.PERSIST)
+	@ManyToMany(mappedBy = "accounts", cascade = CascadeType.ALL)
 	public List<User> getUsers() {
 		return users;
 	}
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
+
+	
+	
 }
