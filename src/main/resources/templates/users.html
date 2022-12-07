@@ -84,7 +84,7 @@
 		
 		<h2>Accounts</h2>
 		<div>
-				<a th:href="@{/users/{userId}/account(userId=${user.userId})}" >Create A Bank Account</a>
+				<a th:href="@{/users/{userId}/accounts(userId=${user.userId})}" >Create A Bank Account</a>
 		</div>
 		<div th:each="account : ${user.accounts}">
 		
