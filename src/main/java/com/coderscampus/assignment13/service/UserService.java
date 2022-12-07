@@ -1,7 +1,6 @@
 package com.coderscampus.assignment13.service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -21,8 +20,7 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepo;
-	@Autowired
-	private AccountRepository accountRepo;
+
 
 	@Autowired
 	private AddressRepository addressRepository;
@@ -51,18 +49,26 @@ public class UserService {
 	// Accounts
 	
 	
-	public Account findAccountByUserId(Long accountId){
+	public Account findAccountByUserId(Long userId){
 		
-	 Account account = accountRepository.findByAccountId(accountId);
-		
-		if(account == null) account = new Account();
+	 Account account = accountRepository.findById(userId).get();
+		if(account == null) {
+			account = new Account();
+			return account;
+		}
 		return  account;
 	}
 	
 	
 	// Save Account
 	
+	public List<Account> saveAccount(List<Account> account) {
+		
+		return  accountRepository.saveAll(account);
+	}
+	
 	public Account saveAccount(Account account) {
+		
 		return  accountRepository.save(account);
 	}
 
@@ -91,7 +97,8 @@ public class UserService {
 	}
 	
 	public List<Account> findAllAccounts(){
-		return accountRepo.findAll();
+		return  accountRepository.findAll();
+
 	}
 	
 
@@ -124,6 +131,9 @@ public class UserService {
 
 		return userRepo.save(user);
 	}
+	
+	
+
 
 	public void delete(Long userId) {
 		
