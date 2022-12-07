@@ -1,7 +1,7 @@
 package com.coderscampus.assignment13.domain;
 
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +25,7 @@ public class User {
 	private String password;
 	private String name;
 	private LocalDate createdDate;
-	private Set<Account> accounts = new HashSet<>();
+	private List<Account> accounts = new ArrayList<>();
 	private Address address;
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,17 +60,17 @@ public class User {
 	public void setCreatedDate(LocalDate createdDate) {
 		this.createdDate = createdDate;
 	}
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL )
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
 	@JoinTable(name = "user_account",
 	           joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "userId"), 
 	           inverseJoinColumns = @JoinColumn(name = "account_id",referencedColumnName = "accountId"))
-	public Set<Account> getAccounts() {
+	public List<Account> getAccounts() {
 		return accounts;
 	}
-	public void setAccounts(Set<Account> accounts) {
+	public void setAccounts(List<Account> accounts) {
 		this.accounts = accounts;
 	}
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	public Address getAddress() {
 		return address;
 	}
