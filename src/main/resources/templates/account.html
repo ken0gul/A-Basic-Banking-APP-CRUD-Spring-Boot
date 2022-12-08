@@ -17,7 +17,9 @@
 	</div>
 	
 	<div th:unless="${accounts.accountName != null}">
-	Account Name: <input type="text" th:id="${accounts.accountName}"  th:name="accountName" th:value="'Account # ' + ${counter}" >
+	
+	Account Name: <input type="text" th:id="${accounts.accountName}"  th:name="accountName" th:value="'Account # ' + ${counter} " >
+
 	</div>
 	
 	<input type="submit" value="Save Account">
