@@ -25,6 +25,10 @@ public class UserController {
 	private UserService userService;
 
 	private List<Account> accounts = new ArrayList<Account>();
+	private Account newAccount = null;
+
+	// A boolean to check if we create a new acc when getting the view
+	private boolean isNewAcc = true;
 
 	@GetMapping("/register")
 	public String getCreateUser(ModelMap model) {
@@ -36,7 +40,6 @@ public class UserController {
 
 	@PostMapping("/register")
 	public String postCreateUser(User user) {
-		System.out.println(user);
 		userService.saveUser(user);
 		return "redirect:/register";
 	}
@@ -44,9 +47,7 @@ public class UserController {
 	@GetMapping("/users")
 	public String getAllUsers(ModelMap model) {
 		Set<User> users = userService.findAll();
-		List<Account> allAccounts = userService.findAllAccounts();
 		model.put("users", users);
-		model.put("allAccounts", allAccounts);
 		if (users.size() == 1) {
 			model.put("user", users.iterator().next());
 		}
@@ -59,7 +60,6 @@ public class UserController {
 		User user = userService.findById(userId);
 
 		Address address = userService.findAddressById(user);
-		System.out.println(address);
 
 		model.put("users", Arrays.asList(user));
 		model.put("user", user);
@@ -92,37 +92,41 @@ public class UserController {
 		User user = userService.findById(userId);
 		List<Account> allAccounts = userService.findAllAccounts();
 
-		Integer counter = 0;
-		counter = user.getAccounts().size()+1;
-		model.put("counter", counter);
-		
-		
-		if(allAccounts.size() == 0) {
-			
-			model.put("accounts",new Account());
-		} else {
-			model.put("accounts", allAccounts.get(allAccounts.size()-1));
+		if (isNewAcc) {
+
+			newAccount = new Account();
+
 		}
-		
-		
+		Integer counter = 0;
+		counter = user.getAccounts().size() + 1;
+		model.put("counter", counter);
+//		model.put("accounts", new Account());
+		if (newAccount.getAccountName() == null) {
+
+			model.put("accounts", newAccount);
+		} else if (allAccounts.size() > 0) {
+
+			model.put("accounts", allAccounts.get(allAccounts.size() - 1));
+		}
+
+		isNewAcc = true;
 
 		return "account";
 	}
-	//Create account
+
+	// Create account
 	@PostMapping("/users/{userId}/accounts")
-	public String createAccount(Account account, @PathVariable Long userId) {
+	public String createAccount(Account account, @PathVariable Long userId, ModelMap model) {
 		User user = userService.findById(userId);
-		Account savedAccount = userService.saveAccount(account);
+		userService.saveAccount(account);
 		if (accounts == null) {
 			accounts.add(account);
 			user.setAccounts(accounts);
 		}
 
 		List<Account> userAccounts = user.getAccounts();
-		
-		userAccounts.add(account);
 
-//			user.getAccounts().stream().forEach(item -> System.out.println(item.getAccountName()));
+		userAccounts.add(account);
 
 		user.setAccounts(userAccounts);
 
@@ -130,10 +134,10 @@ public class UserController {
 		users.add(user);
 
 		account.setUsers(users);
-//		savedAccount.getUsers().stream().forEach(item -> System.out.println(item.getName()));
 		System.out.println(user);
 		userService.saveUserAccount(user);
-
+		newAccount = account;
+		isNewAcc = false;
 		return "redirect:/users/{userId}/accounts";
 	}
 
@@ -145,20 +149,20 @@ public class UserController {
 		model.put("counter", counter);
 		Account account = userService.findAccountByUserId(accountId);
 		model.put("accounts", account);
-	
+
 		return "account";
 	}
 
 	// Modify Accounts
 	@PostMapping("/users/{userId}/accounts/{accountId}")
-	public String createAccounts(ModelMap map, @PathVariable Long userId, @PathVariable Long accountId,
-			Account account, Integer counter) {
+	public String createAccounts(ModelMap map, @PathVariable Long userId, @PathVariable Long accountId, Account account,
+			Integer counter) {
 
 		User user = userService.findById(userId);
-		Account savedAccount = userService.saveAccount(account);
+		userService.saveAccount(account);
 		List<Account> userAccounts = user.getAccounts();
-		
-		
+
+		// It overrides the newly added account
 //		userAccounts.add(account);
 
 		user.setAccounts(userAccounts);
