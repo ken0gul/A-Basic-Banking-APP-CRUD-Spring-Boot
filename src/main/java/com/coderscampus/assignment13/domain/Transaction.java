@@ -2,6 +2,7 @@ package com.coderscampus.assignment13.domain;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,7 +47,7 @@ public class Transaction {
 	public void setType(String type) {
 		this.type = type;
 	}
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="account_id")
 	public Account getAccount() {
 		return account;
