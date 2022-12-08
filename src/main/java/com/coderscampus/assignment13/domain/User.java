@@ -17,7 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Entity // Class name = User, DB Table name = user
+@Entity 
 @Table(name = "users")
 public class User {
 	private Long userId;
@@ -28,7 +28,8 @@ public class User {
 	private List<Account> accounts = new ArrayList<>();
 	private Address address;
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getUserId() {
 		return userId;
 	}
@@ -60,7 +61,7 @@ public class User {
 	public void setCreatedDate(LocalDate createdDate) {
 		this.createdDate = createdDate;
 	}
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL )
 	@JoinTable(name = "user_account",
 	           joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "userId"), 
 	           inverseJoinColumns = @JoinColumn(name = "account_id",referencedColumnName = "accountId"))
@@ -70,7 +71,7 @@ public class User {
 	public void setAccounts(List<Account> accounts) {
 		this.accounts = accounts;
 	}
-	@OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
 	public Address getAddress() {
 		return address;
 	}
