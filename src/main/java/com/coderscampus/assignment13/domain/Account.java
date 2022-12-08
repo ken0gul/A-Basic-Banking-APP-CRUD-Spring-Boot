@@ -24,7 +24,8 @@ public class Account {
 	
 		
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getAccountId() {
 		return accountId;
 	}
@@ -38,7 +39,7 @@ public class Account {
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
 	}
-	@OneToMany(mappedBy = "account")
+	@OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
 	public List<Transaction> getTransactions() {
 		return transactions;
 	}
