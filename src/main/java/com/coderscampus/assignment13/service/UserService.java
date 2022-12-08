@@ -21,16 +21,11 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepo;
 
-
 	@Autowired
 	private AddressRepository addressRepository;
-	
-	
+
 	@Autowired
 	private AccountRepository accountRepository;
-	
-	
-	
 
 	// Address
 
@@ -44,32 +39,29 @@ public class UserService {
 
 		return address;
 	}
-	
-	
+
 	// Accounts
-	
-	
-	public Account findAccountByUserId(Long userId){
-		
-	 Account account = accountRepository.findById(userId).get();
-		if(account == null) {
+
+	public Account findAccountByUserId(Long userId) {
+
+		Account account = accountRepository.findById(userId).get();
+		if (account == null) {
 			account = new Account();
 			return account;
 		}
-		return  account;
+		return account;
 	}
-	
-	
+
 	// Save Account
-	
+
 	public List<Account> saveAccount(List<Account> account) {
-		
-		return  accountRepository.saveAll(account);
+
+		return accountRepository.saveAll(account);
 	}
-	
+
 	public Account saveAccount(Account account) {
-		
-		return  accountRepository.save(account);
+
+		return accountRepository.save(account);
 	}
 
 	public List<User> findByUsername(String username) {
@@ -95,35 +87,29 @@ public class UserService {
 	public Set<User> findAll() {
 		return userRepo.findAllUsersWithAccountsAndAddresses();
 	}
-	
-	public List<Account> findAllAccounts(){
-		return  accountRepository.findAll();
+
+	public List<Account> findAllAccounts() {
+		return accountRepository.findAll();
 
 	}
-	
 
 	public User findById(Long userId) {
 		Optional<User> userOpt = userRepo.findById(userId);
 		return userOpt.orElse(new User());
 	}
 
-	public User saveUser(User user) {
-		if (user.getUserId() == null) {
-			
-			
-			
-		}
-		return userRepo.save(user);
-	}
-	
-	
-	
 	public User saveUserAccount(User user) {
 		return userRepo.save(user);
 	}
 
-	public User saveUser(User user, Address address) {
+	public User saveUser(User user) {
+		if (user.getUserId() == null) {
 
+		}
+		return userRepo.save(user);
+	}
+
+	public User saveUser(User user, Address address) {
 
 		user.setAddress(address);
 		address.setUser(user);
@@ -131,12 +117,8 @@ public class UserService {
 
 		return userRepo.save(user);
 	}
-	
-	
-
 
 	public void delete(Long userId) {
-		
 		userRepo.deleteById(userId);
 	}
 }
